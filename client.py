@@ -1,14 +1,14 @@
 import socket
+import sys
 
-HOST = "127.0.0.1"
 PORTA = 5000
 
 
-def iniciar_cliente():
+def iniciar_cliente(host):
     cliente = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    cliente.connect((HOST, PORTA))
+    cliente.connect((host, PORTA))
 
-    print(f"Conectado ao servidor {HOST}:{PORTA}")
+    print(f"Conectado ao servidor {host}:{PORTA}")
 
     try:
         while True:
@@ -31,4 +31,8 @@ def iniciar_cliente():
 
 
 if __name__ == "__main__":
-    iniciar_cliente()
+    if len(sys.argv) < 2:
+        print("Uso: python client.py <host>")
+    else:
+        host = sys.argv[1]
+        iniciar_cliente(host)

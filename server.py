@@ -1,6 +1,7 @@
 import re
 import socket
 import threading
+import time
 
 HOST = "0.0.0.0"
 PORTA = 5000
@@ -53,6 +54,7 @@ def atender_cliente(cliente_socket, endereco):
                 break
 
             resposta = calcular_operacao(operacao)
+            time.sleep(2)
             cliente_socket.send(resposta.encode("utf-8"))
 
     except Exception as erro:
@@ -65,10 +67,11 @@ def atender_cliente(cliente_socket, endereco):
 
 def iniciar_servidor():
     servidor = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    servidor.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     servidor.bind((HOST, PORTA))
     servidor.listen()
 
-    print(f"Servidor iniciado na porta {PORTA}")
+    print(f"Servidor iniciado em 0.0.0.0:{PORTA}")
     print("Aguardando conexões...")
 
     while True:
